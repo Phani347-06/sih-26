@@ -15,7 +15,7 @@ data/processed/
 .vscode/
 
 # Generated output
-src/output/
+output/
 output/
 
 # OS
