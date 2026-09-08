@@ -1,11 +1,13 @@
 import json
 import os
+from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-EVENT_FILE = "../output/events.json"
-INCIDENT_FILE = "../output/incidents.json"
-GRAPH_FILE = "../output/attack_graph.json"
-OUTPUT_FILE = "../output/dashboard_data.json"
+EVENT_FILE = PROJECT_ROOT / "output" / "events.json"
+INCIDENT_FILE = PROJECT_ROOT / "output" / "incidents.json"
+GRAPH_FILE = PROJECT_ROOT / "output" / "attack_graph.json"
+OUTPUT_FILE = PROJECT_ROOT / "output" / "dashboard_data.json"
 
 
 # ============================================================

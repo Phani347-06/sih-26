@@ -2,9 +2,12 @@ import json
 import os
 from collections import defaultdict, Counter
 from datetime import datetime, timezone
+from pathlib import Path
 
 
-EVENT_FILE = "src/output/events.json"
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+EVENT_FILE = PROJECT_ROOT / "output" / "events.json"
 
 # Events must occur within this time window
 CORRELATION_WINDOW = 60
@@ -561,9 +564,8 @@ def build_attack_graph(events):
 # ============================================================
 
 def save_incidents(incidents):
-
     with open(
-            "src/output/incidents.json",
+            PROJECT_ROOT / "output" / "incidents.json",
         "w",
         encoding="utf-8"
     ) as f:
@@ -659,7 +661,7 @@ def main():
     # --------------------------------------------------------
 
     with open(
-            "src/output/attack_graph.json",
+            PROJECT_ROOT / "output" / "attack_graph.json",
         "w",
         encoding="utf-8"
     ) as f:

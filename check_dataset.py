@@ -2,7 +2,8 @@ import pandas as pd
 from pathlib import Path
 
 # Change this to your dataset folder
-DATASET_DIR = Path(r"C:\Users\manoj\Desktop\n8n\SIH-26\CICIDS 2017")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATASET_DIR = PROJECT_ROOT / "data" / "raw"
 
 for file in DATASET_DIR.glob("*.csv"):
 

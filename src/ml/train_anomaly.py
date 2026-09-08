@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import joblib
 from sklearn.ensemble import IsolationForest
+from pathlib import Path
 
 
 # --------------------------------------------------
@@ -42,7 +43,11 @@ FEATURES = [
 
 print("Loading processed dataset...")
 
-df = pd.read_csv("../../data/processed/processed_dataset.csv")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+df = pd.read_csv(
+    PROJECT_ROOT / "data" / "processed" / "processed_dataset.csv"
+)
 
 benign = df[df["Label"] == "BENIGN"].copy()
 
@@ -98,7 +103,7 @@ model.fit(X_train)
 
 joblib.dump(
     model,
-    "../../models/isolation_forest.pkl"
+    PROJECT_ROOT / "models" / "isolation_forest.pkl"
 )
 
 print("\nModel saved as isolation_forest.pkl")
@@ -111,8 +116,10 @@ print("\nModel saved as isolation_forest.pkl")
 print("\nLoading Web Attack dataset...")
 
 web_file = (
-    "data/"
-    "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv"
+    PROJECT_ROOT
+    / "data"
+    / "raw"
+    / "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv"
 )
 
 web = pd.read_csv(

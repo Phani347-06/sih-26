@@ -7,14 +7,17 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
 
+from pathlib import Path
 
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 # ============================================================
 # CONFIG
 # ============================================================
 
-RF_MODEL_FILE = "../../models/random_forest_model.pkl"
-IF_MODEL_FILE = "../../models/isolation_forest.pkl"
-PATTERN_STORE_FILE = "../output/pattern_store.json"
+RF_MODEL_FILE = PROJECT_ROOT / "models" / "random_forest_model.pkl"
+IF_MODEL_FILE = PROJECT_ROOT / "models" / "isolation_forest.pkl"
+PATTERN_STORE_FILE = PROJECT_ROOT / "output" / "pattern_store.json"
 
 RF_CONFIDENCE_THRESHOLD = 0.70
 

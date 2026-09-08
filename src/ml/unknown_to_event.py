@@ -1,10 +1,12 @@
 import json
 import os
 from datetime import datetime, timezone
+from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-PATTERN_STORE_FILE = "../output/pattern_store.json"
-EVENT_FILE = "../output/events.json"
+PATTERN_STORE_FILE = PROJECT_ROOT / "output" / "pattern_store.json"
+EVENT_FILE = PROJECT_ROOT / "output" / "events.json"
 
 
 def load_patterns():

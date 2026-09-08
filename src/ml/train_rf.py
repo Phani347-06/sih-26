@@ -5,7 +5,7 @@ import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
-
+from pathlib import Path
 
 # --------------------------------------------------
 # 1. Load processed dataset
@@ -13,7 +13,11 @@ from sklearn.metrics import classification_report, confusion_matrix
 
 print("Loading dataset...")
 
-df = pd.read_csv("../../data/processed/processed_dataset.csv")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+df = pd.read_csv(
+    PROJECT_ROOT / "data" / "processed" / "processed_dataset.csv"
+)
 
 print("Original shape:", df.shape)
 
@@ -158,7 +162,7 @@ print(
 
 joblib.dump(
     model,
-    "../../models/random_forest_model.pkl"
+    PROJECT_ROOT / "models" / "random_forest_model.pkl"
 )
 
 print("\nModel saved as:")

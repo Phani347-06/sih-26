@@ -1,6 +1,9 @@
 import json
 from datetime import datetime, timedelta
+from pathlib import Path
 
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 events = []
 
@@ -61,7 +64,7 @@ for i, port in enumerate([
 
 
 with open(
-        "src/output/events.json",
+        PROJECT_ROOT / "output" / "events.json",
     "w",
     encoding="utf-8"
 ) as f:

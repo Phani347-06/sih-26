@@ -1,6 +1,7 @@
 import json
 import os
 import uuid
+from pathlib import Path
 
 import joblib
 import numpy as np
@@ -13,14 +14,18 @@ from sklearn.cluster import DBSCAN
 # ============================================================
 # CONFIG
 # ============================================================
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-MODEL_FILE = "../../models/random_forest_model.pkl"
-ANOMALY_MODEL_FILE = "../../models/isolation_forest.pkl"
+MODEL_FILE = PROJECT_ROOT / "models" / "random_forest_model.pkl"
+ANOMALY_MODEL_FILE = PROJECT_ROOT / "models" / "isolation_forest.pkl"
 
-PATTERN_FILE = "../output/pattern_store.json"
+PATTERN_FILE = PROJECT_ROOT / "output" / "pattern_store.json"
 
 DATA_FILE = (
-    "data/Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv"
+    PROJECT_ROOT
+    / "data"
+    / "raw"
+    / "Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv"
 )
 
 NUM_ROWS = 100

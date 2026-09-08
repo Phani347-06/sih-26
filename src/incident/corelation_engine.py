@@ -1,11 +1,13 @@
 import json
 from datetime import datetime
 from collections import defaultdict
+from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-EVENT_FILE = "../output/events.json"
-INCIDENT_FILE = "../output/incidents.json"
-GRAPH_FILE = "../output/attack_graph.json"
+EVENT_FILE = PROJECT_ROOT / "output" / "events.json"
+INCIDENT_FILE = PROJECT_ROOT / "output" / "incidents.json"
+GRAPH_FILE = PROJECT_ROOT / "output" / "attack_graph.json"
 
 
 # ============================================================

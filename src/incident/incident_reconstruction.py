@@ -1,11 +1,13 @@
 import json
 import os
 from datetime import datetime, timezone
+from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-EVENT_FILE = "../output/events.json"
-INCIDENT_FILE = "../output/incidents.json"
-REPORT_FILE = "../output/incident_report.json"
+EVENT_FILE = PROJECT_ROOT / "output" / "events.json"
+INCIDENT_FILE = PROJECT_ROOT / "output" / "incidents.json"
+REPORT_FILE = PROJECT_ROOT / "output" / "incident_report.json"
 
 
 # ============================================================

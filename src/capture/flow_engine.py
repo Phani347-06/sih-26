@@ -8,7 +8,7 @@ import joblib
 
 import json
 from datetime import datetime, timezone
-
+from pathlib import Path
 
 # ============================================================
 # CONFIG
@@ -17,7 +17,9 @@ from datetime import datetime, timezone
 TSHARK = r"C:\Program Files\Wireshark\tshark.exe"
 INTERFACE = "5"
 
-MODEL_PATH = "../../models/random_forest_model.pkl"
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+MODEL_PATH = PROJECT_ROOT / "models" / "random_forest_model.pkl"
 
 WINDOW = 5
 

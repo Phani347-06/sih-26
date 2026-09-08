@@ -2,13 +2,15 @@ import streamlit as st
 import json
 import os
 import pandas as pd
+from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 # ============================================================
 # CONFIG
 # ============================================================
 
-DATA_FILE = "../output/dashboard_data.json"
+DATA_FILE = PROJECT_ROOT / "output" / "dashboard_data.json"
 
 
 # ============================================================
@@ -413,7 +415,7 @@ if incidents:
     # the report if available.
 
 
-    report_file = "../output/incident_report.json"
+    report_file = PROJECT_ROOT / "output" / "incident_report.json"
 
 
     if os.path.exists(

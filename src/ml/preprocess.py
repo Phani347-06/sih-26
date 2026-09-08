@@ -2,7 +2,9 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-DATA_DIR = Path("../../data")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+DATA_DIR = PROJECT_ROOT / "data" / "raw"
 
 FILES = [
     "Monday-WorkingHours.pcap_ISCX.csv",
@@ -112,7 +114,9 @@ data = data.dropna()
 print("\nRows removed because of NaN/inf:", before - len(data))
 
 # Save processed dataset
-output = Path("../../data/processed/processed_dataset.csv")
+
+output = PROJECT_ROOT / "data" / "processed" / "processed_dataset.csv"
+
 data.to_csv(output, index=False)
 
 print("\nSaved:", output)
