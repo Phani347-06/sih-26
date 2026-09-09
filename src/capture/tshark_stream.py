@@ -1,11 +1,14 @@
 import subprocess
 import json
 import time
+import sys
+
+# ============================================================
+# CONFIGURATION
+# ============================================================
 
 TSHARK = r"C:\Program Files\Wireshark\tshark.exe"
-
-# Your Wi-Fi interface was interface 5
-INTERFACE = "5"
+INTERFACE = "5"  # Run 'tshark -D' in CMD/PowerShell to confirm index
 
 FIELDS = [
     "frame.time_epoch",
@@ -16,13 +19,22 @@ FIELDS = [
     "udp.srcport",
     "udp.dstport",
     "ip.proto",
-    "frame.len"
+    "frame.len",
+    "tcp.flags.syn",
+    "tcp.flags.ack",
+    "tcp.flags.push",
+    "ip.hdr_len",
+    "tcp.hdr_len"
 ]
+
+# ============================================================
+# BUILD COMMAND (STREAMING MODE, NO PACKET LIMIT)
+# ============================================================
 
 cmd = [
     TSHARK,
     "-i", INTERFACE,
-    "-l",
+    "-l",               # Flush stdout per packet (line-buffered)
     "-T", "fields",
     "-E", "separator=|",
     "-E", "quote=n",
@@ -32,8 +44,17 @@ cmd = [
 for field in FIELDS:
     cmd.extend(["-e", field])
 
-print("Starting TShark...")
-print("Listening on interface:", INTERFACE)
+print("=" * 65)
+print(" CONTINUOUS TSHARK PACKET STREAMER")
+print("=" * 65)
+print(f"[*] Interface: {INTERFACE}")
+print("[*] Line buffering: Enabled (-l)")
+print("[*] Mode: Continuous Capture (No packet cap)")
+print("=" * 65)
+
+# ============================================================
+# SUBPROCESS EXECUTION
+# ============================================================
 
 process = subprocess.Popen(
     cmd,
@@ -44,45 +65,32 @@ process = subprocess.Popen(
 )
 
 packet_count = 0
-start = time.time()
+start_time = time.time()
 
 try:
-
-    for line in process.stdout:
-
-        line = line.strip()
-
-        if not line:
+    for line in iter(process.stdout.readline, ""):
+        clean_line = line.strip()
+        if not clean_line:
             continue
 
-        values = line.split("|")
+        values = clean_line.split("|")
+        if len(values) < len(FIELDS):
+            values.extend([""] * (len(FIELDS) - len(values)))
 
-        packet = dict(
-            zip(FIELDS, values)
-        )
-
+        packet = dict(zip(FIELDS, values))
         packet_count += 1
 
-        print(
-            json.dumps(packet),
-            flush=True
-        )
+        # Emit raw JSON packet to stdout for piping or logging
+        print(json.dumps(packet), flush=True)
 
-        # Print rate every 10 packets
-        if packet_count % 10 == 0:
-
-            elapsed = time.time() - start
-
-            rate = packet_count / elapsed
-
-            print(
-                f"\n[INFO] Packets: {packet_count} | "
-                f"Rate: {rate:.2f} packets/sec\n",
-                flush=True
-            )
+        # Telemetry benchmark logged every 50 packets to stderr (avoids polluting stdout)
+        if packet_count % 50 == 0:
+            elapsed = time.time() - start_time
+            rate = packet_count / elapsed if elapsed > 0 else 0.0
+            sys.stderr.write(f"\r[STREAM TELEMETRY] Ingested: {packet_count} packets | Live Rate: {rate:.2f} pkt/s")
+            sys.stderr.flush()
 
 except KeyboardInterrupt:
-
-    print("\nStopping TShark...")
-
+    print("\n\n[*] Stopping continuous capture streamer...", file=sys.stderr)
     process.terminate()
+    process.wait()
