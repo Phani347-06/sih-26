@@ -215,6 +215,35 @@ st.divider()
 
 
 # ============================================================
+# 3D ATTACK GRAPH (SVG)
+# ============================================================
+
+from src.dashboard.attack_graph_3d import build_3d_graph_svg, load_attack_graph
+
+st.header("🕸️ 3D Attack Graph")
+
+
+graph_data = load_attack_graph()
+
+if graph_data is None:
+    st.error("attack_graph.json not found. Run the correlation engine first.")
+else:
+    svg = build_3d_graph_svg(graph_data)
+    st.markdown(
+        f'<div style="max-width: 900px; overflow-x:auto;">{svg}</div>',
+        unsafe_allow_html=True,
+    )
+
+    st.caption(
+        "Color codes: RED=Reconnaissance, ORANGE=Unknown Behavior, "
+        "PURPLE=Multi-Stage, ORANGE=Suspicious, GREEN=Benign"
+    )
+
+
+st.divider()
+
+
+# ============================================================
 # THREAT DISTRIBUTION
 # ============================================================
 
